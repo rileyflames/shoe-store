@@ -8,8 +8,8 @@ dotenv.config()
 
 
 // Handle process termination
-process.on('SIGTERM', gracefulShutdown)
-process.on('SIGINT', gracefulShutdown)
+process.on('SIGTERM', () => gracefulShutdown());
+process.on('SIGINT', () => gracefulShutdown());
 
 
 // Handle uncaught exceptions

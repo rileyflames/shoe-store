@@ -17,17 +17,20 @@ export const connectDB = async()=> {
 
 
 // Graceful shutdown
-export const gracefulShutdown = () =>{
-    // log message
-    logger.info('Received kill signal, shutting down gracefully')
-
-    // close mongoose connection
-    mongoose.connection.close( ()=>{
-        logger.info('MongoDB connection closed')
-        process.exit(0)
-    })
+export const gracefulShutdown = async () => {
+    try {
+        // log message
+        logger.info('Received kill signal, shutting down gracefully');
+        // close mongoose connection (returns a Promise)
+        await mongoose.connection.close();
+        logger.info('MongoDB connection closed');
+        process.exit(0);
+    } catch (error) {
+        logger.error('Error during graceful shutdown:', error);
+        process.exit(1);
+    }
 }
 
 
-export { connectDB, gracefulShutdown} 
+
 
