@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import logger from "../utils/winston.logger.js";
 
-const connectDB = async()=> {
+export const connectDB = async()=> {
     try {
         // connect database
         await mongoose.connect(process.env.MONGO_URI)
@@ -16,6 +16,18 @@ const connectDB = async()=> {
 }
 
 
+// Graceful shutdown
+export const gracefulShutdown = () =>{
+    // log message
+    logger.info('Received kill signal, shutting down gracefully')
 
-export default connectDB
+    // close mongoose connection
+    mongoose.connection.close( ()=>{
+        logger.info('MongoDB connection closed')
+        process.exit(0)
+    })
+}
+
+
+export { connectDB, gracefulShutdown} 
 
