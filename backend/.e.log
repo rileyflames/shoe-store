@@ -1,0 +1,4 @@
+MONGO_URI = mongodb+srv://anthomlilo7:anthomlilo7@cluster0.fyokqej.mongodb.net/
+PORT = 5000
+NODE_ENV = development
+JWT_SECRET = cbc25441a916b3f9a702968d0fe55fd452b934216c66e9b5c752f8bb29f7562c
