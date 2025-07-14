@@ -1,0 +1,3 @@
+{"level":"error","message":"❌ MongoDB connection error: TypeError: Cannot create property 'Symbol(level)' on string '✅ Connected to MongoDB'","service":"shoe-store","timestamp":"2025-07-14T10:41:43.359Z"}
+{"level":"error","message":"❌ MongoDB connection error: TypeError: Cannot create property 'Symbol(level)' on string '✅ Connected to MongoDB'","service":"shoe-store","timestamp":"2025-07-14T10:41:47.306Z"}
+{"level":"error","message":"❌ MongoDB connection error: TypeError: Cannot create property 'Symbol(level)' on string '✅ Connected to MongoDB'","service":"shoe-store","timestamp":"2025-07-14T10:49:59.576Z"}
