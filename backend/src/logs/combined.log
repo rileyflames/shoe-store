@@ -7,3 +7,6 @@
 {"level":"info","message":"✅ Connected to MongoDB","service":"shoe-store","timestamp":"2025-07-14T11:43:22.532Z"}
 {"level":"info","message":"Server running on http://localhost:5000","service":"shoe-store","timestamp":"2025-07-14T11:43:22.535Z"}
 {"level":"info","message":"Received kill signal, shutting down gracefully","service":"shoe-store","timestamp":"2025-07-14T11:43:25.948Z"}
+{"level":"info","message":"✅ Connected to MongoDB","service":"shoe-store","timestamp":"2025-07-14T12:06:29.113Z"}
+{"level":"info","message":"Server running on http://localhost:5000","service":"shoe-store","timestamp":"2025-07-14T12:06:29.117Z"}
+{"level":"info","message":"Received kill signal, shutting down gracefully","service":"shoe-store","timestamp":"2025-07-14T12:06:39.761Z"}
