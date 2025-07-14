@@ -3,6 +3,8 @@ import express from "express";
 import helmet from "helmet";
 import hpp from "hpp";
 import compression from "compression";
+import globalErrorHandler from "./middleware/errorHandler.js";
+import { AppError } from "./utils/AppError.js";
 
 // app instance
 const app = express()
@@ -24,5 +26,13 @@ app.get('/', (req, res)=>{
     res.send('🟢 API is up and running!')
 })
 
+// 404 handler for unmatched routes
+app.all('*', (req, res, next)=>{
+    next( new AppError(`Can't find ${req.originalUrl}`, 404))
+})
+
+// Error handling middleware
+
+app.use(globalErrorHandler)
 
 export default app
