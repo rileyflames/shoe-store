@@ -39,7 +39,12 @@ const userSchema = new mongoose.Schema({
         unique : true,
         lowercase : true,
         trim : true,
-    }
+    },
+    role : {
+        type: String,
+        enum : ['user', 'editor', 'admin'],
+        default: 'user'
+    },
 },
 {
     timestamps : true
@@ -53,6 +58,11 @@ userSchema.pre('save', async function (next){
     this.password = await bcrypt.hash(this.password, 12)
     next()
 })
+
+// Password comparison method
+userSchema.methods.correctPassword = async function (candidatePwd, userPwd){
+    return await bcrypt.compare(candidatePwd, userPwd)
+}
 
 
 
