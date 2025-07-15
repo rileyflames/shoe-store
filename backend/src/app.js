@@ -26,7 +26,7 @@ app.get('/', (req, res)=>{
     res.send('🟢 API is up and running!')
 })
 
-// 404 handler for unmatched routes
+// Handler 404 for unmatched routes
 app.all('*', (req, res, next)=>{
     next( new AppError(`Can't find ${req.originalUrl}`, 404))
 })
