@@ -1,11 +1,18 @@
-import {z} from "zod";
+import { z } from "zod";
 
 const loginSchema = z.object({
-    email: z.string().email('Invalid email address'),
-    password: z.string().min(8, 'Password must be at least 8 characters long')
-})
+  identifier: z.string().min(3, 'Email or username is required'),
+  password: z.string().min(8, 'Password must be at least 8 characters long')
+});
+
+export default loginSchema;
 
 
+/**
+ * ✅ Why this change?
+We no longer require both email and username.
 
-export default loginSchema
+The identifier field is flexible — it can be either one.
 
+This change aligns the schema with what you're actually sending from the frontend.
+ */
