@@ -4,7 +4,8 @@ import helmet from "helmet";
 import hpp from "hpp";
 import compression from "compression";
 import globalErrorHandler from "./middleware/errorHandler.js";
-import { AppError } from "./utils/AppError.js";
+import routeNotFound from "./utils/routeNotFound.js";
+import authRoutes from './routes/auth.routes.js'
 
 // app instance
 const app = express()
@@ -22,14 +23,40 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 
+// routes
+
 app.get('/', (req, res)=>{
     res.send('🟢 API is up and running!')
 })
 
+// auth routes
+app.use('/api/v1/auth', authRoutes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Handler 404 for unmatched routes
-app.all('*', (req, res, next)=>{
-    next( new AppError(`Can't find ${req.originalUrl}`, 404))
-})
+app.use(routeNotFound);
 
 // Error handling middleware
 

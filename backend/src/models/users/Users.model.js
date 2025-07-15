@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from 'bcryptjs'
 
 
 
@@ -19,7 +20,8 @@ const userSchema = new mongoose.Schema({
     password : {
         type : String,
         required : true,
-        minLength : 8
+        minLength : 8,
+        select : false
     },
     isVerified :{
         type : Boolean,
@@ -37,7 +39,6 @@ const userSchema = new mongoose.Schema({
         unique : true,
         lowercase : true,
         trim : true,
-        match : [/@domain\.com$/, 'Email must be under @domain.com']
     }
 },
 {
@@ -46,16 +47,18 @@ const userSchema = new mongoose.Schema({
 
 
 
+// Hash password before saving
+userSchema.pre('save', async function (next){
+    if(!this.isModified('password'))return next(); // only hash if changed
+    this.password = await bcrypt.hash(this.password, 12)
+    next()
+})
+
 
 
 // Export the user model
 
 const User = mongoose.model('User', userSchema)
-
-
-
-
-
 
 
 // export the schema

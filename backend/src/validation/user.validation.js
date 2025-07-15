@@ -10,10 +10,8 @@ const createUserSchema = z.object({
 
   phonenumber: z.string().regex(/^\+\d{10,15}$/, 'Phone number must be in international format, e.g. +27830001111'),
 
-  email: z.string().email('Invalid email address').refine(
-    (val) => val.endsWith('@domain.com'),
-    'Email must end with @domain.com'
-  )
+  email: z.string().email('Invalid email address')
+  
 })
 
 
