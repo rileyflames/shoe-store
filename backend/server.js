@@ -1,10 +1,10 @@
 import dotenv from 'dotenv'
+dotenv.config()
 import app from './src/app.js'
 import {connectDB, gracefulShutdown} from './src/config/db.js'
 import logger from './src/utils/winston.logger.js'
 
 
-dotenv.config()
 
 
 // Handle process termination
