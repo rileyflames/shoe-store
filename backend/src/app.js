@@ -6,6 +6,7 @@ import compression from "compression";
 import globalErrorHandler from "./middleware/errorHandler.js";
 import routeNotFound from "./utils/routeNotFound.js";
 import authRoutes from './routes/auth.routes.js'
+import shoeRoutes from './routes/shoe.routes.js'
 
 // app instance
 const app = express()
@@ -31,6 +32,9 @@ app.get('/', (req, res)=>{
 
 // auth routes
 app.use('/api/v1/auth', authRoutes)
+
+// shoe routes
+app.use('/api/v1/shoes', shoeRoutes)
 
 
 
