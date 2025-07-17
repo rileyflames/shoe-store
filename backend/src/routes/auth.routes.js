@@ -2,6 +2,7 @@ import express from 'express'
 import createUser from '../controllers/users/register.js'
 import loginUser from '../controllers/users/login.js'
 import protect from '../middleware/protect.js'
+import logoutUser from '../controllers/users/logout.js'
 
 
 
@@ -17,7 +18,7 @@ router.get('/me', protect, (req, res)=>{
 
 // register User route
 router.post('/register', createUser)
-
+router.post('/logout', logoutUser)
 
 router.post('/login', loginUser)
 
