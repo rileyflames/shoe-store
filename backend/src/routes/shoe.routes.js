@@ -3,6 +3,7 @@ import createShoe from '../controllers/shoes/createShoe.js'
 import protect from '../middleware/protect.js'
 import uploadImage from '../middleware/uploadImage.middleware.js'
 import getAllShoes from "../controllers/shoes/getAllShoes.js";
+import getShoeById from "../controllers/shoes/getShoeById.js";
 
 const router = express.Router()
 
@@ -11,6 +12,7 @@ const router = express.Router()
 // @access  Protected
 router.get('/', getAllShoes)
 router.post('/', protect,uploadImage.single('image'), createShoe)
+router.get('/:id', getShoeById)
 
 
 /**
