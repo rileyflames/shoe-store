@@ -9,21 +9,35 @@ import {AppError} from '../../utils/AppError.js'
  */
 
 const getShoeById = catchAsync(async (req, res, next) => {
-    const { id } = req.params
+  const { id } = req.params;
 
-    // try to find the shoe
-    const shoe = await Shoe.findById(id)
+  // Fetch even soft-deleted shoes
+  const shoe = await Shoe.findById(id);
 
-    // if no shoe found, trigger global error handler
-    if(!shoe) {
-        return next(new AppError('Shoe not found', 404))
+  if (!shoe) {
+    return next(new AppError("Shoe not found", 404));
+  }
+
+  // If soft-deleted AND user is not editor/admin, hide it
+  if (!shoe.isActive) {
+    if (!req.user || !['admin', 'editor'].includes(req.user.role)) {
+      return next(new AppError("Shoe not found", 404));
     }
 
-    // if found send shoe data
-    res.status(200).json({
-        status: 'success',
-        data : shoe
-    })
-})
+    // ⚠️ Warn editors/admins
+    return res.status(200).json({
+      status: "warning",
+      message: "This shoe has been soft-deleted.",
+      data: shoe,
+    });
+  }
+
+  // Return normally for active shoes
+  res.status(200).json({
+    status: "success",
+    data: shoe,
+  });
+});
+
 
 export default getShoeById

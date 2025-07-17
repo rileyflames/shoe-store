@@ -7,6 +7,7 @@ import getShoeById from "../controllers/shoes/getShoeById.js";
 import upload from "../middleware/uploadImage.middleware.js";
 import updateShoe from "../controllers/shoes/updateShoe.js";
 import softDeleteShoe from "../controllers/shoes/softDeleteShoe.js";
+import authorize from "../middleware/authorize.js";
 
 const router = express.Router()
 
@@ -16,7 +17,7 @@ const router = express.Router()
 router.get('/', getAllShoes); // GET all shoes (public)
 router.post('/', protect, upload.single('image'), createShoe); // Create shoe (auth)
 
-router.patch('/:id/soft-delete', protect, softDeleteShoe); // Soft delete — must come BEFORE :id
+router.patch('/:id/soft-delete', protect,authorize('admin','editor'), softDeleteShoe); // Soft delete — must come BEFORE :id
 router.get('/:id', getShoeById); // Get one shoe by ID
 router.patch('/:id', protect, upload.single('image'), updateShoe); // Update shoe
 
