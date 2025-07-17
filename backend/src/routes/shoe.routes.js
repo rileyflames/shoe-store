@@ -4,6 +4,8 @@ import protect from '../middleware/protect.js'
 import uploadImage from '../middleware/uploadImage.middleware.js'
 import getAllShoes from "../controllers/shoes/getAllShoes.js";
 import getShoeById from "../controllers/shoes/getShoeById.js";
+import upload from "../middleware/uploadImage.middleware.js";
+import updateShoe from "../controllers/shoes/updateShoe.js";
 
 const router = express.Router()
 
@@ -13,6 +15,7 @@ const router = express.Router()
 router.get('/', getAllShoes)
 router.post('/', protect,uploadImage.single('image'), createShoe)
 router.get('/:id', getShoeById)
+router.patch('/:id', protect, upload.single('image'), updateShoe)
 
 
 /**
