@@ -1,37 +1,48 @@
-import jwt from 'jsonwebtoken'
-import { AppError } from '../utils/AppError.js'
-import catchAsync from '../utils/catchAsync.js'
+import jwt from 'jsonwebtoken';
+import { AppError } from '../utils/AppError.js';
+import catchAsync from '../utils/catchAsync.js';
+import User from '../models/users/Users.model.js';  // Adjust path if needed
 
-// Middleware to protect private routes
-const protect = catchAsync(async ( req, res, next) =>{
-    let token;
+const protect = catchAsync(async (req, res, next) => {
+  let token;
 
-    // Extract token from Authorization header: "Bearer <token>"
-    if(
-        req.headers.authorization && req.headers.authorization.startsWith('Bearer')
-    ){
-        token = req.headers.authorization.split(' ')[1]
-        console.log('Extracted token', token);
-        
-    }
+  // Extract token from Authorization header: "Bearer <token>"
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')['1'];
+    console.log('Extracted token', token);
+  }
 
-    // if no token, deny access
-    if(!token){
-        return next(new AppError('You are not logged in. Please login to access', 401))
-    }
+  if (!token) {
+    return next(new AppError('You are not logged in. Please login to access', 401));
+  }
 
-    // Verify token using secret
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+  // Verify token and get decoded payload
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Attach decoded user info to request object
-    req.user = {
-        id : decoded.id,
-        username : decoded.username,
-        role : decoded.role
-    }
+  // Find user by id from decoded token
+  const currentUser = await User.findById(decoded.id);
 
-    next()
-})
+  if (!currentUser) {
+    return next(new AppError('The user belonging to this token no longer exists.', 401));
+  }
+
+  // Optionally: check if user is active, not banned, etc.
+  // if (!currentUser.isActive) {
+  //   return next(new AppError('Your account is inactive. Please contact support.', 401));
+  // }
+
+  // Attach user info to req.user for later middleware/controllers
+  req.user = {
+    id: currentUser._id,
+    username: currentUser.username,
+    role: currentUser.role,
+  };
+
+  next();
+});
 
 /**
  *  | Step           | Why                                                              |
