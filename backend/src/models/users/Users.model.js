@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         select : false
     },
     verificationCode : {
-        String
+        type: String
     },
     isVerified :{
         type : Boolean,
@@ -47,6 +47,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum : ['user', 'editor', 'admin'],
         default: 'user'
+    },
+    refreshTokens:{
+        type: [String],
+        default: [],
+        select: false
     },
 },
 {

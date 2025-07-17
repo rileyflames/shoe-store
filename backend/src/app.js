@@ -2,6 +2,8 @@
 import express from "express";
 import helmet from "helmet";
 import hpp from "hpp";
+import cookieParser from "cookie-parser";
+import cors from 'cors'
 import compression from "compression";
 import globalErrorHandler from "./middleware/errorHandler.js";
 import routeNotFound from "./utils/routeNotFound.js";
@@ -19,9 +21,15 @@ app.use(hpp())
 
 
 // General Middleware
+app.use(cookieParser())
 app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+
+app.use(cors({
+    origin: 'http://localhost:5000',
+    credentials: true
+}))
 
 
 // routes

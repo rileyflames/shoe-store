@@ -2,17 +2,18 @@ import jwt from 'jsonwebtoken'
 
 // Signs a JWT token using user dat
 
-export const signToken = (user) =>{
-    const payload = {
-        id : user._id,
-        username : user.username,
-        role : user.role
-    }
+export const signAccessToken = (user) =>{
+    return jwt.sign(
+        { id: user._id, username: user.username, role: user.role},
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_ACCESS_EXPIRES || '15m'}
+    )
+}
 
-    // Sign the token using the correct and expiry from environment variables
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn : process.env.JWT_EXPIRES_IN
-    })
-
-    return token
+export const signRefreshToken = (user) => {
+    return jwt.sign(
+        {id: user._id},
+        process.env.JWT_REFRESH_SECRET,
+        { expiresIn: process.env.JWT_REFRESH_EXPIRES || '7d'}
+    )
 }
