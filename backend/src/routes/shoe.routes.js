@@ -6,26 +6,32 @@ import getAllShoes from "../controllers/shoes/getAllShoes.js";
 import getShoeById from "../controllers/shoes/getShoeById.js";
 import upload from "../middleware/uploadImage.middleware.js";
 import updateShoe from "../controllers/shoes/updateShoe.js";
+import softDeleteShoe from "../controllers/shoes/softDeleteShoe.js";
 
 const router = express.Router()
 
 // @route   POST /api/v1/shoes
 // @desc    Create a new shoe
 // @access  Protected
-router.get('/', getAllShoes)
-router.post('/', protect,uploadImage.single('image'), createShoe)
-router.get('/:id', getShoeById)
-router.patch('/:id', protect, upload.single('image'), updateShoe)
+router.get('/', getAllShoes); // GET all shoes (public)
+router.post('/', protect, upload.single('image'), createShoe); // Create shoe (auth)
+
+router.patch('/:id/soft-delete', protect, softDeleteShoe); // Soft delete — must come BEFORE :id
+router.get('/:id', getShoeById); // Get one shoe by ID
+router.patch('/:id', protect, upload.single('image'), updateShoe); // Update shoe
+
 
 
 /**
+ * 🔁 Summary
  *  
- * | ✅ Benefit                    | 💬 Reason                                                                         |
-    | ---------------------------- | --------------------------------------------------------------------------------- |
-    | **Centralized upload logic** | One file controls file type, size, storage                                        |
-    | **Easier maintenance**       | Update limits/filters in one place                                                |
-    | **Cleaner route files**      | Route stays focused on purpose (not low-level config)                             |
-    | **Reusability**              | Same middleware can be used for updating profile pics, multiple shoe images, etc. |
+ * | Route              | Purpose       | Notes                           |
+| ------------------ | ------------- | ------------------------------- |
+| `/`                | Get or create | Fine at the top                 |
+| `/:id/soft-delete` | Soft delete   | Must come **before** `/:id`     |
+| `/:id`             | Get by ID     | Must come **after** soft-delete |
+| `/:id` (PATCH)     | Update by ID  | Shares same pattern as GET      |
+
 
  */
 

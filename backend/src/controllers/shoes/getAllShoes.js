@@ -39,7 +39,7 @@ const getAllShoes = catchAsync(async (req, res) => {
         sortOption = '-createdAt';
     }
 
-  const filter = {}
+  const filter = {isActive: true}
 
     if (category) filter.category = category.toLowerCase();
     if (gender) filter.gender = gender.toLowerCase();
